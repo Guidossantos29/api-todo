@@ -2,6 +2,7 @@ from models.user_model import User
 from models.todo_model import Todo
 from typing import List
 from schemas.todo_schema import TodoCreate
+from uuid import UUID
 
 class TodoService:
     @staticmethod
@@ -14,3 +15,7 @@ class TodoService:
         todo = Todo(**data.dict(), owner=user)
         return await todo.insert()
     
+    @staticmethod
+    async def detail(user: User, todo_id: UUID):
+        todo = await Todo.find_one(Todo.todo_id == todo_id, Todo.owner.id == user.id)
+        return todo
