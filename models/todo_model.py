@@ -1,7 +1,7 @@
 from typing import Optional
 from datetime import datetime
 from uuid import UUID,uuid4
-from beanie import Document,Indexed,Link,before_event
+from beanie import Document,Indexed, Insert,Link, Replace,before_event
 from pydantic import Field
 from .user_model import User
 
