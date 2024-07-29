@@ -5,6 +5,7 @@ from beanie import init_beanie
 from motor.motor_asyncio import AsyncIOMotorClient
 from api.api_v1.router import router
 from models.user_model import User
+from models.todo_model import Todo
 
 app =FastAPI(
     title=settings.PROJECT_NAME,
@@ -19,7 +20,8 @@ async def app_init():
     await init_beanie(
         database=client_db,
         document_models=[
-            User 
+            User, 
+            Todo
         ]
     )
 
