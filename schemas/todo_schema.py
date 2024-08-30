@@ -1,6 +1,6 @@
 from pydantic import BaseModel,Field
 from typing import Optional
-from uuid import UUID
+from uuid import UUID, uuid4
 from datetime import datetime
 
 class TodoCreate(BaseModel):
