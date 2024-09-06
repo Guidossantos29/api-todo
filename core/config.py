@@ -11,7 +11,8 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 15
     REFRESH_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 dias
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = [
-        "http://localhost:3000"
+        "http://localhost:3000",
+        "https://api-todo-production-d3f0.up.railway.app/"
     ]
     PROJECT_NAME: str = "TODOFast"
 
