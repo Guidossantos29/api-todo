@@ -16,7 +16,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
+    allow_origins=settings.BACKEND_CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -28,8 +28,8 @@ async def app_init():
         settings.MONGO_CONNECTION_STRING).todoapp
     
     await init_beanie(
-        database=cliente_db,
-        document_models=[
+        database = cliente_db,
+        document_models = [
             User,
             Todo
         ]
