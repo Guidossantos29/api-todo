@@ -41,22 +41,28 @@ async def refresh_token(refresh_token: str = Body(...)):
         payload = jwt.decode(
             refresh_token,
             settings.JWT_REFRESH_SECRET_KEY,
-            settings.ALGORITHM
+            algorithms=[settings.ALGORITHM]
         )
         token_data = TokenPayload(**payload)
-    except:
+    except jwt.ExpiredSignatureError:
         raise HTTPException(
-            status_code = status.HTTP_403_FORBIDDEN,
-            details='Token inválido',
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail='Token expirado',
             headers={'WWW-Authenticate': 'Bearer'}
         )
-    user = await UserService.get_user_by_id(token_data.sub)
-
-    if not User:
+    except jwt.JWTError:
         raise HTTPException(
-            status_code = status.HTTP_404_NOT_FOUND,
-            details = 'Não foi possível encontrar o usuário',
-            headers = {'WWW-Authenticate': 'Bearer'}
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail='Token inválido',
+            headers={'WWW-Authenticate': 'Bearer'}
+        )
+
+    user = await UserService.get_user_by_id(token_data.sub)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail='Não foi possível encontrar o usuário',
+            headers={'WWW-Authenticate': 'Bearer'}
         )
     
     return {
