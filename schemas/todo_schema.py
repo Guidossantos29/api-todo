@@ -11,7 +11,7 @@ class TodoCreate(BaseModel):
 
 class TodoUpdate(BaseModel):
      title: Optional[str]
-     description: Optional[bool]
+     description: Optional[str]
      status: Optional[bool] = False
 
 class TodoDetail(BaseModel):
