@@ -24,16 +24,18 @@ class TodoService:
         return todo
     
     
-    @staticmethod
-    async def update_todo(user: User, todo_id: UUID, data: TodoUpdate):
-        todo = await TodoService.detail(user, todo_id)
-        if not todo:
-            raise HTTPException(status_code=404, detail="Todo not found")
-            update_data = data.dict(exclude_unset=True)
-            update_data["updated_at"] = datetime.utcnow()  # Atualize o campo updated_at
-            await todo.update({"$set": update_data})
-            await todo.save()
-            return todo
+@staticmethod
+async def update_todo(user: User, todo_id: UUID, data: TodoUpdate):
+    todo = await TodoService.detail(user, todo_id)
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo not found")
+    
+    update_data = data.dict(exclude_unset=True)
+    update_data["updated_at"] = datetime.utcnow()  # Atualize o campo updated_at
+    
+    await todo.update({"$set": update_data})
+    await todo.save()
+    return todo
 
     
     @staticmethod
